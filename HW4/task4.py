@@ -10,4 +10,3 @@ match users_text:
         print("You have entered a string")
     case _:
         print("You entered a different data type")
-
