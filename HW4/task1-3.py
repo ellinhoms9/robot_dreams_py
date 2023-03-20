@@ -13,10 +13,3 @@ elif users_text.isalpha():
     print(f"This is a word. Length of this word is {len(users_text)}.")
 else:
     print("It is not a word or a number.")
-
-
-
-
-
-
-
