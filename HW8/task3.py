@@ -3,7 +3,7 @@ def string_elem_to_up(elem):
     if isinstance(elem, str):
         return elem.upper()
     else:
-        return "This element is not type string."
+        return "This element is not type string"
 
 
 lst = [1, "a", 2.1, "B", 3, "c", 4.7, "d", 5]
