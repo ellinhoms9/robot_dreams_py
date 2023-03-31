@@ -1,6 +1,6 @@
 def string_elem_to_up(elem):
     print(f'Argument of function: {elem}')
-    if type(elem) == str:
+    if isinstance(elem, str):
         return elem.upper()
     else:
         return "This element is not type string."
