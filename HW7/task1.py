@@ -12,31 +12,34 @@ telephone_book = {}
 while True:
     choise = int(input("Please enter your choice: "))
     if choise == 1:
-        print(len(telephone_book))
+        def stats():
+            print(len(telephone_book))
     elif choise == 2:
-        name = input("Please enter name and last name: ")
-        telephone = input("Please enter telephone number: ")
-        # checking whether the entered data is correct and whether this name is not in the phone book
-        if len(name) < 4 or len(telephone) < 9:
-            print("Incorrect name or phone number, please check and try again.")
-            continue
-        elif name in telephone_book:
-            print("This contact is already in the phone book.")
-            continue
-        else:
-            telephone_book[name] = telephone
+        def adds():
+            name = input("Please enter name and last name: ")
+            telephone = input("Please enter telephone number: ")
+            # checking whether the entered data is correct and whether this name is not in the phone book
+            if len(name) < 4 or len(telephone) < 9:
+                print("Incorrect name or phone number, please check and try again.")
+            elif name in telephone_book:
+                print("This contact is already in the phone book.")
+            else:
+                telephone_book[name] = telephone
     elif choise == 3:
-        del_number = input("Please enter the name whose record you want to delete: ")
-        del telephone_book[del_number]
+        def delete():
+            del_number = input("Please enter the name whose record you want to delete: ")
+            del telephone_book[del_number]
     elif choise == 4:
-        print(telephone_book.keys())
+        def book_keys():
+            print(telephone_book.keys())
     elif choise == 5:
-        search_name = input("Please enter the name whose record you are looking for: ")
-        # checking whether this contact is in the phone book.
-        if search_name in telephone_book:
-            print(search_name, "-", telephone_book.get(search_name))
-        else:
-            print("This name is not in the phone book, please check and try again.")
+        def search_in_book():
+            search_name = input("Please enter the name whose record you are looking for: ")
+            # checking whether this contact is in the phone book.
+            if search_name in telephone_book:
+                print(search_name, "-", telephone_book.get(search_name))
+            else:
+                print("This name is not in the phone book, please check and try again.")
     elif choise == 6:
         break
     else:
