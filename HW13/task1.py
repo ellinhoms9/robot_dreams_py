@@ -16,9 +16,7 @@ def adds():
     else:
         telephone_book[name] = telephone
         # update the json file
-        json_telephone_book = json.dumps(telephone_book)
-        with open("json_telephone_book.json", "w") as file:
-            file.write(json_telephone_book)
+        updating_json_file()
 
 
 def delete():
@@ -27,9 +25,7 @@ def delete():
         del telephone_book[del_number]
         print(f"The record for {del_number} has been successfully deleted.")
         # update the json file
-        json_telephone_book = json.dumps(telephone_book)
-        with open("json_telephone_book.json", "w") as file:
-            file.write(json_telephone_book)
+        updating_json_file()
     except KeyError:
         print(f"Key {del_number} does not exist in the telephone book.")
 
@@ -44,6 +40,12 @@ def search_in_book():
         print(search_name, "-", telephone_book[search_name])
     except KeyError:
         print(f"Key {search_name} does not exist in the telephone book.")
+
+
+def updating_json_file():
+    json_telephone_book = json.dumps(telephone_book)
+    with open("json_telephone_book.json", "w") as file:
+        file.write(json_telephone_book)
 
 
 print(""" Telephone book
