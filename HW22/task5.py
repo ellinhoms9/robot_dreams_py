@@ -11,7 +11,7 @@ query = ("SELECT age, COUNT(id) AS users FROM users "
 res = cursor.execute(query)
 pprint(res.fetchall())
 
-# OR WE CAN MAKE IT LIKE THIS
+## OR WE CAN MAKE IT LIKE THIS
 
 # import sqlite3
 # from pprint import pprint
