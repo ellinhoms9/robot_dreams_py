@@ -1,0 +1,51 @@
+
+body   {
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.profile-photo {
+    margin: 10px;
+}
+
+.my-table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 50%;
+    text-align: center;
+
+}
+
+th, td {
+   border: 1px solid black;
+}
+
+.logo-text {
+    text-align: right;
+}
+
+.container {
+    margin: 10px;
+}
+
+ .info1 {
+            padding: 10px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            margin-right: 10px;
+            background-color: #fdfcfc;
+            border: 1px solid #ddd;
+
+        }
+
+.info2  {
+            padding: 10px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            margin-right: 10px;
+            background-color: #fdfcfcff;
+            border: 1px solid #ddd;
+
+        }
