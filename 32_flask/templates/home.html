@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+    <h1>Welcome to the Home Page!</h1>
+    {% if username %}
+        <p>Hello, {{ username }}</p>
+        <a href="/logout">Logout</a>
+    {% else %}
+        <p>Please login to access the content.</p>
+        <a href="/login">Login</a>
+    {% endif %}
+    <ul>
+        <li><a href="/users">Users</a></li>
+        <li><a href="/books">Books</a></li>
+        <li><a href="/params">Params</a></li>
+    </ul>
+</body>
+</html>
