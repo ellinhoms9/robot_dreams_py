@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='users.css') }}">
+    <title>User Details</title>
 </head>
 <body>
     <h1>User Details</h1>
-    <p>Hello, {{ username }}</p>
-    {% if user %}
-        <p>ID: {{ user['id'] }}</p>
-    {% else %}
-        <p>User Not Found</p>
-    {% endif %}
-    <a href="/logout">Logout</a>
+    <p><strong>ID:</strong> {{ user.id }}</p>
+    <p><strong>First Name:</strong> {{ user.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+    <p><strong>Age:</strong> {{ user.age }}</p>
 </body>
 </html>

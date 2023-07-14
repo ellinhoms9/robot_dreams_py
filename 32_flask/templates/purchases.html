@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchases</title>
+</head>
+<body>
+    <h1>Purchases</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Book</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase in purchases %}
+                <tr>
+                    <td><a href="/purchases/{{ purchase.id }}">{{ purchase.id }}</a></td>
+                    <td>{{ purchase.user.first_name }} {{ purchase.user.last_name }}</td>
+                    <td>{{ purchase.book.title }}</td>
+                    <td>{{ purchase.date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
