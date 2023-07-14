@@ -1,109 +1,81 @@
-import random
 import re
-from app import app
-from flask import abort, request, redirect, session, render_template
-
-users = [
-    {'id': 1, 'name': 'user1'}, {'id': 2, 'name': 'user2'}, {'id': 3, 'name': 'user3'}, {'id': 4, 'name': 'user4'},
-    {'id': 5, 'name': 'user5'}, {'id': 6, 'name': 'user6'}, {'id': 7, 'name': 'user7'}, {'id': 8, 'name': 'user8'},
-    {'id': 9, 'name': 'user9'}, {'id': 10, 'name': 'user10'}, {'id': 11, 'name': 'user11'}, {'id': 12, 'name': 'user12'}
-    ]
-
-books = [
-    {'id': 1, 'name': 'book1'}, {'id': 2, 'name': 'book2'}, {'id': 3, 'name': 'book3'}, {'id': 4, 'name': 'book4'},
-    {'id': 5, 'name': 'book5'}, {'id': 6, 'name': 'book6'}, {'id': 7, 'name': 'book7'}, {'id': 8, 'name': 'book8'},
-    {'id': 9, 'name': 'book9'}, {'id': 10, 'name': 'book10'}, {'id': 11, 'name': 'book11'}, {'id': 12, 'name': 'book12'}
-    ]
-
-params = [
-    {'parameter': 'value', 'name': 'Test', 'age': 1},
-    {'parameter': 'value', 'name': 'Ivan', 'age': 25},
-    {'parameter': 'value', 'name': 'Stepan', 'age': 30},
-    {'parameter': 'value', 'name': 'Maria', 'age': 40},
-    {'parameter': 'value', 'name': 'Oleg', 'age': 50}
-]
+from app import app, db
+from flask import abort, request, redirect, session, render_template, jsonify
+from models import User, Book, Purchase, PublishingHouse
 
 
 
-
-
-@app.get('/users')
-def random_users():
+@app.route('/users', methods=['GET'])
+def get_users():
     if 'username' in session:
-        username = session['username']
-        return render_template('users.html', username=username, users=users)
+        size = int(request.args.get('size', -1))
+        if size > 0:
+            users = User.query.limit(size).all()
+        else:
+            users = User.query.all()
+        return render_template('users.html', users=users)
     else:
         return redirect('/login')
 
-    count = int(request.args.get('count', random.randint(1, len(users))))
-    r_list_u = [user['name'] for user in random.choices(users, k=count)]
-    return ', '.join(r_list_u)
 
-
-@app.get('/users/<int:user_id>')
+@app.route('/users/<int:user_id>', methods=['GET'])
 def get_user(user_id):
     if 'username' in session:
-        username = session['username']
-        if user_id % 2 == 0:
-            user = next((user for user in users if user['id'] == user_id), None)
-            if user:
-                return render_template('user.html', username=username, user=user)
-            else:
-                abort(404)
+        user = User.query.get(user_id)
+        if user:
+            return render_template('user.html', user=user)
         else:
             abort(404)
     else:
         return redirect('/login')
 
 
-@app.get('/books')
-def random_books():
+@app.route('/books', methods=['GET'])
+def get_books():
     if 'username' in session:
-        username = session['username']
-        return render_template('books.html', username=username, books=books)
+        size = int(request.args.get('size', -1))
+        if size > 0:
+            books = Book.query.limit(size).all()
+        else:
+            books = Book.query.all()
+        return render_template('books.html', books=books)
     else:
         return redirect('/login')
 
-    count = int(request.args.get('count', random.randint(1, len(books))))
-    r_list_b = [book['name'] for book in random.choices(books, k=count)]
-    book_list = '<ul>'
-    for book in r_list_b:
-        book_list += f'<li>{book}</li>'
-    book_list += '</ul>'
-    return book_list, 200
 
-
-@app.get('/books/<string:title>')
-def get_book(title):
+@app.route('/books/<int:book_id>', methods=['GET'])
+def get_book(book_id):
     if 'username' in session:
-        username = session['username']
-        book = next((book for book in books if book['name'] == title), None)
+        book = Book.query.get(book_id)
         if book:
-            book['name'] = book['name'].capitalize()
-            return render_template('book.html', username=username, book=book)
+            return render_template('book.html', book=book)
         else:
             abort(404)
     else:
         return redirect('/login')
 
 
-@app.get('/params')
-def get_params():
+@app.route('/purchases', methods=['GET'])
+def get_purchases():
     if 'username' in session:
-        username = session['username']
-        query_params = request.args
+        size = int(request.args.get('size', -1))
+        if size > 0:
+            purchases = Purchase.query.limit(size).all()
+        else:
+            purchases = Purchase.query.all()
+        return render_template('purchases.html', purchases=purchases)
+    else:
+        return redirect('/login')
 
-        table_data = []
-        for param in params:
-            match = True
-            for key, value in query_params.items():
-                if key in param and str(param[key]) != value:
-                    match = False
-                    break
-            if match:
-                table_data.append({'name': param['name'], 'age': param['age']})
 
-        return render_template('params.html', username=username, table_data=table_data)
+@app.route('/purchases/<int:purchase_id>', methods=['GET'])
+def get_purchase(purchase_id):
+    if 'username' in session:
+        purchase = Purchase.query.get(purchase_id)
+        if purchase:
+            return render_template('purchase.html', purchase=purchase)
+        else:
+            abort(404)
     else:
         return redirect('/login')
 
@@ -162,3 +134,68 @@ def home():
             <li><a href="/params">Params</a></li>
         </ul>
     '''
+
+
+#### TASK8 CREATE NEW OBJECTS IN DATABASE
+
+@app.route('/users', methods=['POST'])
+def create_user():
+    if 'username' in session:
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        age = request.form.get('age')
+
+        if not first_name or not last_name or not age:
+            return jsonify({'error': 'Missing required fields'}), 400
+
+        user = User(first_name=first_name, last_name=last_name, age=age)
+        db.session.add(user)
+        db.session.commit()
+
+        return jsonify({'message': 'User created successfully', 'user_id': user.id}), 201
+    else:
+        return redirect('/login')
+
+
+@app.route('/books', methods=['POST'])
+def create_book():
+    if 'username' in session:
+        title = request.form.get('title')
+        author = request.form.get('author')
+        year = request.form.get('year')
+        price = request.form.get('price')
+        publishing_house_id = request.form.get('publishing_house_id')
+
+        if not title or not author or not year or not price or not publishing_house_id:
+            return jsonify({'error': 'Missing required fields'}), 400
+
+        book = Book(title=title, author=author, year=year, price=price, publishing_house_id=publishing_house_id)
+        db.session.add(book)
+        db.session.commit()
+
+        return jsonify({'message': 'Book created successfully', 'book_id': book.id}), 201
+    else:
+        return redirect('/login')
+
+
+@app.route('/purchases', methods=['POST'])
+def create_purchase():
+    if 'username' in session:
+        user_id = request.form.get('user_id')
+        book_id = request.form.get('book_id')
+
+        if not user_id or not book_id:
+            return jsonify({'error': 'Missing required fields'}), 400
+
+        user = User.query.get(user_id)
+        book = Book.query.get(book_id)
+        if not user or not book:
+            return jsonify({'error': 'User or book not found'}), 404
+
+        purchase = Purchase(user_id=user_id, book_id=book_id)
+        db.session.add(purchase)
+        db.session.commit()
+
+        return jsonify({'message': 'Purchase created successfully', 'purchase_id': purchase.id}), 201
+    else:
+        return redirect('/login')
