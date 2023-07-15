@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Book</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='books.css') }}">
+    <title>Book Details</title>
 </head>
 <body>
     <h1>Book Details</h1>
-    <p>Hello, {{ username }}</p>
-    <p>Name: {{ book['name'] }}</p>
-    <a href="/logout">Logout</a>
+    <p><strong>ID:</strong> {{ book.id }}</p>
+    <p><strong>Title:</strong> {{ book.title }}</p>
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>Year:</strong> {{ book.year }}</p>
+    <p><strong>Price:</strong> {{ book.price }}</p>
 </body>
 </html>
