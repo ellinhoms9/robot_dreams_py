@@ -12,4 +12,6 @@ class Books(models.Model):
 
     class Meta:
         db_table = 'book'
+        verbose_name = 'Book'
+        verbose_name_plural = 'Books'
         unique_together = ('title', 'author')
