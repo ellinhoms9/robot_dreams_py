@@ -1,3 +1,6 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
+
 from purchase.models import Purchases
 from book.models import Books
 from django.contrib.auth.models import AbstractUser
@@ -5,9 +8,9 @@ from django.contrib import admin
 from users.models import Users
 
 
-@admin.register(Users)
-class UsersAdmin(admin.ModelAdmin):
-    list_display = ['id', 'first_name', 'last_name', 'age']
+@admin.register(get_user_model())
+class UsersAdmin(UserAdmin):
+    pass
 
 
 @admin.register(Books)
