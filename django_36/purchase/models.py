@@ -9,6 +9,9 @@ class Purchases(models.Model):
     book = models.ForeignKey(Books, on_delete=models.CASCADE, default='')
     date = models.DateField(auto_now=True)
 
+    def __str__(self):
+        return f"{self.id} {self.user.first_name} buy {self.book.title}"
+
     class Meta:
         db_table = 'purchase'
         ordering = ['-date']
