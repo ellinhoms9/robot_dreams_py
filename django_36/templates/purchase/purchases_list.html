@@ -1,0 +1,8 @@
+<h1>Purchases list</h1>
+<ul>
+    {% for obj in object_list %}
+        <li>{{ obj.date }} {{ obj.user.first_name }} {{ obj.user.last_name }} buy book - {{ obj.book.title }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'purchases:purchases-create' %}">Create New Purchase</a>
