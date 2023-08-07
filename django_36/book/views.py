@@ -1,10 +1,22 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.urls import reverse_lazy
+
 from book.models import Books
+from django.views.generic import ListView, DetailView, CreateView
 
 
-def all_books(request):
-    books = Books.objects.all()
-    data = [{'id': books.id, 'title': books.title, 'author': books.author,
-             'year': books.year, 'price': books.price}for books in books]
-    return JsonResponse(data, safe=False)
+class BookListView(ListView):
+    model = Books
+
+
+class BookDetailView(DetailView):
+    model = Books
+
+
+class BooksCreateView(CreateView):
+    model = Books
+    template_name = 'book/books_create.html'
+    context_object_name = 'books/books_create.html'
+    fields = ('title', 'author', 'year', 'price')
+    success_url = reverse_lazy('books:books-list')
