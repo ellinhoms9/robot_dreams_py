@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse_lazy
 
 
 class Users(AbstractUser):
@@ -16,3 +17,5 @@ class Users(AbstractUser):
         verbose_name = 'Site User'
         verbose_name_plural = 'Site Users'
 
+    def get_absolute_url(self):
+        return reverse_lazy('users:users_detail', kwargs={'pk': self.pk})
