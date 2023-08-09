@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse_lazy
 
 from users.models import Users
 from book.models import Books
@@ -17,3 +18,6 @@ class Purchases(models.Model):
         verbose_name = 'Purchase'
         verbose_name_plural = 'Purchases'
         ordering = ['-date']
+
+    def get_absolute_url(self):
+        return reverse_lazy('purchases:purchases-detail', kwargs={'pk': self.pk})
