@@ -18,6 +18,9 @@ services:
   web:
     build: .
     command: gunicorn django_36.wsgi:application --bind 0.0.0.0:8000
+    environment:
+      - SECRET_KEY=your_secret_key_here
+      - DEBUG=True
     volumes:
       - .:/code
     ports:
